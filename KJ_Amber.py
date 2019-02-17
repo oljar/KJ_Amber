@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 import sqlite3
-
 from tkinter import *
 from tkinter import messagebox
 
