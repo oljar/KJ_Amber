@@ -5,7 +5,7 @@ import sqlite3
 from tkinter import *
 from tkinter import messagebox
 
-
+# git
 # utworzenie połączenia z bazą przechowywaną na dysku
 # lub w pamięci (':memory:')
 con = sqlite3.connect('plan.db')
