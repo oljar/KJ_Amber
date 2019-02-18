@@ -18,11 +18,6 @@ cur = con.cursor()
 
 
 
-
-
-
-
-
 # lista zagnieżdzona przekazywania stanow kontrolek
 l=100     #parametry listy-ilosc zagniezdzen
 x=100    #parametry listy- ilosc zmiennych(str) w zagniezdzeniu
@@ -56,7 +51,9 @@ class Application(Frame):
         self.nr_zlec(State)
         self.identyfikacja(State)
         self.filtry_uszczelki(State)
-        self.szczelnosc_wymiennika(State)
+        self.wymiennik_szczel_dokrec(State)
+        self.prowadz_konc_przew(State)
+
         self.btn_akcept()
 
         self.n=n
@@ -225,7 +222,7 @@ class Application(Frame):
     def filtry_uszczelki(self,State):
 
 
-        self.lbl_filter_gasket = Label(self, text ="Filtry i uszczelki ")
+        self.lbl_filter_gasket = Label(self, text ="Filtry-Uszczelki-Silikon-Dławice ")
         self.lbl_filter_gasket.grid(row = 4, column = 1,sticky = W )
 
         self.filter_gasket = StringVar()
@@ -269,39 +266,90 @@ class Application(Frame):
 
 
     #poziom lini szczelnosc wymiennika
-    def szczelnosc_wymiennika(self,State):
+    def wymiennik_szczel_dokrec(self,State):
 
 
-        self.lbl_czynnosc = Label(self, text ="Szczelność wymiennika")                  #change
-        self.lbl_czynnosc.grid(row = 5, column = 1,sticky = W )
+        self.lbl_czynnosc = Label(self, text ="Wymiennik-Szczelność-Dokręcenie")                             #change
+        self.lbl_czynnosc.grid(row = 5, column = 1,sticky = W )                                    #change
 
-        self.szczel_wymien = StringVar()                                                 #change
+        self.szczel_wymien = StringVar()                                                           #change
 
-        self.szczel_wymien.set(State[0][6])                                              #change
+        self.szczel_wymien.set(State[0][6])                                                        #change
 
 
         Radiobutton(self,
                     text =  "Tak",
-                    variable = self.szczel_wymien,                                       #change
+                    variable = self.szczel_wymien,                                                 #change
                     value = "Pozytyw",
-                    ).grid(row = 5, column = 4,sticky=W)                                 #change
+                    ).grid(row = 5, column = 4,sticky=W)                                           #change
 
         Radiobutton(self,
                     text =  "Nie",
-                    variable = self.szczel_wymien,                                        #change
+                    variable = self.szczel_wymien,                                                 #change
                     value = "Negatyw",
-                    ).grid(row = 5, column = 4,sticky=E)                                  #change
+                    ).grid(row = 5, column = 4,sticky=E)                                           #change
 
 
 # Wyswietlanie stanu  z bazy
 
         if  State[0][1]!=0 :
-            self.lbl_czynnosc_info = Label(self,text=State[0][6])                          #change
-            self.lbl_czynnosc_info.grid(row = 5, column = 7)                               #change
+            self.lbl_czynnosc_info = Label(self,text=State[0][6])                                   #change
+            self.lbl_czynnosc_info.grid(row = 5, column = 7)                                        #change
 
 
         self.lbl_dist_9=Label(self)
         self.lbl_dist_9.grid(row = 100, column = 5 , pady=2)                               #dystans col  9
+
+
+
+
+
+
+#######################################################################################################################################################################################
+
+
+
+
+
+    #poziom lini Silikonowanie  i dławice
+    def prowadz_konc_przew(self,State):                                                            #change
+
+
+        self.lbl_czynnosc = Label(self, text ="Prowadzenie i końcówki przewodów ")                 #change
+        self.lbl_czynnosc.grid(row = 6, column = 1,sticky = W )                                    #change
+
+        self.prow_kon_przew = StringVar()                                                               #change
+
+        self.prow_kon_przew.set(State[0][7])                                                            #change
+
+
+        Radiobutton(self,
+                    text =  "Tak",
+                    variable = self.prow_kon_przew,                                                    #change
+                    value = "Pozytyw",
+                    ).grid(row = 6, column = 4,sticky=W)                                           #change
+
+        Radiobutton(self,
+                    text =  "Nie",
+                    variable = self.prow_kon_przew,                                                     #change
+                    value = "Negatyw",
+                    ).grid(row = 6, column = 4,sticky=E)                                           #change
+
+
+# Wyswietlanie stanu  z bazy
+
+        if  State[0][1]!=0 :
+            self.lbl_czynnosc_info = Label(self,text=State[0][7])                                   #change
+            self.lbl_czynnosc_info.grid(row = 6, column = 7)                                        #change
+
+
+        self.lbl_dist_9=Label(self)
+        self.lbl_dist_9.grid(row = 100, column = 5 , pady=2)                               #dystans col  9
+
+
+
+
+
 
 
 
@@ -333,9 +381,10 @@ class Application(Frame):
         contens3 = str(self.ent_nr_zlec.get())
         id1 = self.identity.get()
         id2 = self.filter_gasket.get()
-        id3 = self.szczel_wymien.get()                                                                                    #add
-        messagebox.showinfo("Check window", contens1+";"+contens2+";"+ contens3+";"+id1+";"+id2+";"+id3)                  #add
-        cur.execute('INSERT INTO tab VALUES (NULL,?,?,?,?,?,?);',(contens1,contens2,contens3,id1,id2,id3))                #add
+        id3 = self.szczel_wymien.get()
+        id4 = self.prow_kon_przew.get()                                                                                       #add
+        messagebox.showinfo("Check window", contens1+";"+contens2+";"+ contens3+";"+id1+";"+id2+";"+id3+ ";" + id4)      #add
+        cur.execute('INSERT INTO tab VALUES (NULL,?,?,?,?,?,?,?);',(contens1,contens2,contens3,id1,id2,id3,id4))         #add
 
         con.commit()
 
@@ -367,7 +416,7 @@ class Application(Frame):
 
         cur.execute(
             """
-            SELECT ID,nr_fabr,kod_prod, nr_zlec,identyfikacja,filtry_uszczelki,szczel_wymien FROM tab
+            SELECT ID,nr_fabr,kod_prod, nr_zlec,identyfikacja,filtry_uszczelki,szczel_wymien,prowadz_przew_kon FROM tab
 
             """)
         State_Train = cur.fetchall()
@@ -391,7 +440,7 @@ class Application(Frame):
 
 root = Tk()
 root.title("KJ Ambery")
-root.geometry("400x200")
+root.geometry("500x500")
 
 
 
