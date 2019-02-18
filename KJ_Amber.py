@@ -268,56 +268,40 @@ class Application(Frame):
 
 
 
-    #poziom lini szzelnosc wymiennika
+    #poziom lini szczelnosc wymiennika
     def szczelnosc_wymiennika(self,State):
 
 
-        self.lbl_czynnosc = Label(self, text ="Szczelność wymiennika")
+        self.lbl_czynnosc = Label(self, text ="Szczelność wymiennika")                  #change
         self.lbl_czynnosc.grid(row = 5, column = 1,sticky = W )
 
-        self.czynnosc = StringVar()
+        self.szczel_wymien = StringVar()                                                 #change
 
-        self.czynnosc.set(State[0][5])
+        self.szczel_wymien.set(State[0][6])                                              #change
 
 
         Radiobutton(self,
                     text =  "Tak",
-                    variable = self.czynnosc,
+                    variable = self.szczel_wymien,                                       #change
                     value = "Pozytyw",
-                    ).grid(row = 5, column = 4,sticky=W)
+                    ).grid(row = 5, column = 4,sticky=W)                                 #change
 
         Radiobutton(self,
                     text =  "Nie",
-                    variable = self.czynnosc,
+                    variable = self.szczel_wymien,                                        #change
                     value = "Negatyw",
-                    ).grid(row = 5, column = 4,sticky=E)
+                    ).grid(row = 5, column = 4,sticky=E)                                  #change
 
 
 # Wyswietlanie stanu  z bazy
 
         if  State[0][1]!=0 :
-            self.lbl_czynnosc_info = Label(self,text=State[0][5])
-            self.lbl_czynnosc_info.grid(row = 5, column = 7)
+            self.lbl_czynnosc_info = Label(self,text=State[0][6])                          #change
+            self.lbl_czynnosc_info.grid(row = 5, column = 7)                               #change
 
 
         self.lbl_dist_9=Label(self)
         self.lbl_dist_9.grid(row = 100, column = 5 , pady=2)                               #dystans col  9
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -349,8 +333,9 @@ class Application(Frame):
         contens3 = str(self.ent_nr_zlec.get())
         id1 = self.identity.get()
         id2 = self.filter_gasket.get()
-        messagebox.showinfo("Check window", contens1+";"+contens2+";"+ contens3+";"+id1+";"+id2)
-        cur.execute('INSERT INTO tab VALUES (NULL,?,?,?,?,?);',(contens1,contens2,contens3,id1,id2))
+        id3 = self.szczel_wymien.get()                                                                                    #add
+        messagebox.showinfo("Check window", contens1+";"+contens2+";"+ contens3+";"+id1+";"+id2+";"+id3)                  #add
+        cur.execute('INSERT INTO tab VALUES (NULL,?,?,?,?,?,?);',(contens1,contens2,contens3,id1,id2,id3))                #add
 
         con.commit()
 
@@ -382,7 +367,7 @@ class Application(Frame):
 
         cur.execute(
             """
-            SELECT ID,nr_fabr,kod_prod, nr_zlec,identyfikacja,filtry_uszczelki FROM tab
+            SELECT ID,nr_fabr,kod_prod, nr_zlec,identyfikacja,filtry_uszczelki,szczel_wymien FROM tab
 
             """)
         State_Train = cur.fetchall()
