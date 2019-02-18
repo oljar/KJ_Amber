@@ -56,6 +56,7 @@ class Application(Frame):
         self.nr_zlec(State)
         self.identyfikacja(State)
         self.filtry_uszczelki(State)
+        self.szczelnosc_wymiennika(State)
         self.btn_akcept()
 
         self.n=n
@@ -256,6 +257,75 @@ class Application(Frame):
 
         self.lbl_dist_9=Label(self)
         self.lbl_dist_9.grid(row = 100, column = 5 , pady=2)                               #dystans col  9
+
+
+
+
+
+#######################################################################################################################################################################################
+
+
+
+
+
+    #poziom lini szzelnosc wymiennika
+    def szczelnosc_wymiennika(self,State):
+
+
+        self.lbl_czynnosc = Label(self, text ="Szczelność wymiennika")
+        self.lbl_czynnosc.grid(row = 5, column = 1,sticky = W )
+
+        self.czynnosc = StringVar()
+
+        self.czynnosc.set(State[0][5])
+
+
+        Radiobutton(self,
+                    text =  "Tak",
+                    variable = self.czynnosc,
+                    value = "Pozytyw",
+                    ).grid(row = 5, column = 4,sticky=W)
+
+        Radiobutton(self,
+                    text =  "Nie",
+                    variable = self.czynnosc,
+                    value = "Negatyw",
+                    ).grid(row = 5, column = 4,sticky=E)
+
+
+# Wyswietlanie stanu  z bazy
+
+        if  State[0][1]!=0 :
+            self.lbl_czynnosc_info = Label(self,text=State[0][5])
+            self.lbl_czynnosc_info.grid(row = 5, column = 7)
+
+
+        self.lbl_dist_9=Label(self)
+        self.lbl_dist_9.grid(row = 100, column = 5 , pady=2)                               #dystans col  9
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ########################################################################################################################################################################################
