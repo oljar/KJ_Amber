@@ -19,8 +19,8 @@ cur = con.cursor()
 
 
 # lista zagnieżdzona przekazywania stanow kontrolek
-l=100     #parametry listy-ilosc zagniezdzen
-x=100    #parametry listy- ilosc zmiennych(str) w zagniezdzeniu
+l=200     #parametry listy-ilosc zagniezdzen
+x=200    #parametry listy- ilosc zmiennych(str) w zagniezdzeniu
 State=[]
 for s in range(l):
     sub_list=[""]
@@ -32,8 +32,6 @@ for s in range(l):
 
 n=-1  #zmienna odpow. za poruszanie po bazie
 
-
-#State=[[" "," "],[" "," "]]
 
 
 
@@ -53,6 +51,12 @@ class Application(Frame):
         self.filtry_uszczelki(State)
         self.wymiennik_szczel_dokrec(State)
         self.prowadz_konc_przew(State)
+        self.montaz_nag_wt(State)
+        self.montaz_rozdz(State)
+        self.dzial_wentyl(State)
+        self.montaz_czujnikow(State)
+
+
 
         self.btn_akcept()
 
@@ -269,7 +273,7 @@ class Application(Frame):
     def wymiennik_szczel_dokrec(self,State):
 
 
-        self.lbl_czynnosc = Label(self, text ="Wymiennik-Szczelność-Dokręcenie")                             #change
+        self.lbl_czynnosc = Label(self, text ="Wymiennik-Szczelność-Dokręcenie")                   #change
         self.lbl_czynnosc.grid(row = 5, column = 1,sticky = W )                                    #change
 
         self.szczel_wymien = StringVar()                                                           #change
@@ -297,11 +301,6 @@ class Application(Frame):
             self.lbl_czynnosc_info.grid(row = 5, column = 7)                                        #change
 
 
-        self.lbl_dist_9=Label(self)
-        self.lbl_dist_9.grid(row = 100, column = 5 , pady=2)                               #dystans col  9
-
-
-
 
 
 
@@ -318,20 +317,20 @@ class Application(Frame):
         self.lbl_czynnosc = Label(self, text ="Prowadzenie i końcówki przewodów ")                 #change
         self.lbl_czynnosc.grid(row = 6, column = 1,sticky = W )                                    #change
 
-        self.prow_kon_przew = StringVar()                                                               #change
+        self.prow_kon_przew = StringVar()                                                          #change
 
-        self.prow_kon_przew.set(State[0][7])                                                            #change
+        self.prow_kon_przew.set(State[0][7])                                                       #change
 
 
         Radiobutton(self,
                     text =  "Tak",
-                    variable = self.prow_kon_przew,                                                    #change
+                    variable = self.prow_kon_przew,                                                #change
                     value = "Pozytyw",
                     ).grid(row = 6, column = 4,sticky=W)                                           #change
 
         Radiobutton(self,
                     text =  "Nie",
-                    variable = self.prow_kon_przew,                                                     #change
+                    variable = self.prow_kon_przew,                                                #change
                     value = "Negatyw",
                     ).grid(row = 6, column = 4,sticky=E)                                           #change
 
@@ -339,28 +338,168 @@ class Application(Frame):
 # Wyswietlanie stanu  z bazy
 
         if  State[0][1]!=0 :
-            self.lbl_czynnosc_info = Label(self,text=State[0][7])                                   #change
-            self.lbl_czynnosc_info.grid(row = 6, column = 7)                                        #change
+            self.lbl_czynnosc_info = Label(self,text=State[0][7])                                  #change
+            self.lbl_czynnosc_info.grid(row = 6, column = 7)                                       #change
+
+
+########################################################################################################################################################################################
+
+
+
+    #poziom lini Poprawność montażu NW
+    def montaz_nag_wt(self,State):                                                              #change
+
+
+        self.lbl_czynnosc = Label(self, text ="Mont. nagrzewnicy wtórnej " )                       #change
+        self.lbl_czynnosc.grid(row = 7, column = 1,sticky = W )                                    #change
+
+        self.mon_NW = StringVar()                                                             #change
+
+        self.mon_NW.set(State[0][8])                                                          #change
+
+
+        Radiobutton(self,
+                    text =  "Tak",
+                    variable = self.mon_NW,                                                  #change
+                    value = "Pozytyw",
+                    ).grid(row = 7, column = 4,sticky=W)                                          #change
+
+        Radiobutton(self,
+                    text =  "Nie",
+                    variable = self.mon_NW,                                                  #change
+                    value = "Negatyw",
+                    ).grid(row = 7, column = 4,sticky=E)                                          #change
+
+
+# Wyswietlanie stanu  z bazy
+
+        if  State[0][1]!=0 :
+            self.lbl_czynnosc_info = Label(self,text=State[0][8])                                  #change
+            self.lbl_czynnosc_info.grid(row = 7, column = 7)                                       #change
 
 
         self.lbl_dist_9=Label(self)
-        self.lbl_dist_9.grid(row = 100, column = 5 , pady=2)                               #dystans col  9
-
-
-
-
-
-
-
-
-
-
-
+        self.lbl_dist_9.grid(row = 100, column = 5 , pady=2)                                       #dystans col  9
 
 
 
 
 ########################################################################################################################################################################################
+
+
+
+    #poziom lini Poprawność motażu układu sterownia - wart. zabezp. nadprąd.
+    def montaz_rozdz(self,State):                                                                    #change
+
+
+        self.lbl_czynnosc = Label(self, text ="Mont. rozdzielnicy, zabezp. nadprądowe." )             #change
+        self.lbl_czynnosc.grid(row = 8, column = 1,sticky = W )                                   #change
+
+        self.mon_roz = StringVar()                                                          #change
+
+        self.mon_roz.set(State[0][9])                                                       #change
+
+
+        Radiobutton(self,
+                    text =  "Tak",
+                    variable = self.mon_roz,                                                #change
+                    value = "Pozytyw",
+                    ).grid(row = 8, column = 4,sticky=W)                                          #change
+
+        Radiobutton(self,
+                    text =  "Nie",
+                    variable = self.mon_roz,                                                #change
+                    value = "Negatyw",
+                    ).grid(row = 8, column = 4,sticky=E)                                          #change
+
+
+# Wyswietlanie stanu  z bazy
+
+        if  State[0][1]!=0 :
+            self.lbl_czynnosc_info = Label(self,text=State[0][9])                                  #change
+            self.lbl_czynnosc_info.grid(row = 8, column = 7)                                       #change
+
+
+
+########################################################################################################################################################################################
+
+
+
+    #poziom lini Działanie wentylatorów i presostatów.
+    def dzial_wentyl(self,State):                                                              #change
+
+
+        self.lbl_czynnosc = Label(self, text ="Działanie wentylatorów i presostatów" )             #change
+        self.lbl_czynnosc.grid(row = 9, column = 1,sticky = W )                                   #change
+
+        self.dzial_went = StringVar()                                                          #change
+
+        self.dzial_went.set(State[0][10])                                                       #change
+
+
+        Radiobutton(self,
+                    text =  "Tak",
+                    variable = self.dzial_went,                                                #change
+                    value = "Pozytyw",
+                    ).grid(row = 9, column = 4,sticky=W)                                          #change
+
+        Radiobutton(self,
+                    text =  "Nie",
+                    variable = self.dzial_went,                                                #change
+                    value = "Negatyw",
+                    ).grid(row = 9, column = 4,sticky=E)                                          #change
+
+
+# Wyswietlanie stanu  z bazy
+
+        if  State[0][1]!=0 :
+            self.lbl_czynnosc_info = Label(self,text=State[0][10])                                  #change
+            self.lbl_czynnosc_info.grid(row = 9, column = 7)                                       #change
+
+
+
+########################################################################################################################################################################################
+
+
+
+    #poziom lini montaż czujniki
+    def montaz_czujnikow(self,State):                                                              #change
+
+
+        self.lbl_czynnosc = Label(self, text ="Montaż czujników" )             #change
+        self.lbl_czynnosc.grid(row = 10, column = 1,sticky = W )                                   #change
+
+        self.mon_czujn = StringVar()                                                          #change
+
+        self.mon_czujn.set(State[0][11])                                                       #change
+
+
+        Radiobutton(self,
+                    text =  "Tak",
+                    variable = self.mon_czujn,                                                #change
+                    value = "Pozytyw",
+                    ).grid(row = 10, column = 4,sticky=W)                                          #change
+
+        Radiobutton(self,
+                    text =  "Nie",
+                    variable = self.mon_czujn,                                                #change
+                    value = "Negatyw",
+                    ).grid(row = 10, column = 4,sticky=E)                                          #change
+
+
+# Wyswietlanie stanu  z bazy
+
+        if  State[0][1]!=0 :
+            self.lbl_czynnosc_info = Label(self,text=State[0][11])                                  #change
+            self.lbl_czynnosc_info.grid(row = 10, column = 7)                                       #change
+
+
+        self.lbl_dist_9=Label(self)
+        self.lbl_dist_9.grid(row = 100, column = 5 , pady=2)                                       #dystans col  9
+
+
+
+#######################################################################################################################################################################################
 
 
     #poziom lini przycisk akceptuj
@@ -382,9 +521,14 @@ class Application(Frame):
         id1 = self.identity.get()
         id2 = self.filter_gasket.get()
         id3 = self.szczel_wymien.get()
-        id4 = self.prow_kon_przew.get()                                                                                       #add
-        messagebox.showinfo("Check window", contens1+";"+contens2+";"+ contens3+";"+id1+";"+id2+";"+id3+ ";" + id4)      #add
-        cur.execute('INSERT INTO tab VALUES (NULL,?,?,?,?,?,?,?);',(contens1,contens2,contens3,id1,id2,id3,id4))         #add
+        id4 = self.prow_kon_przew.get()                                                                                                   #add
+        id5 = self.mon_NW.get()
+        id6 = self.mon_roz.get()
+        id7 = self.dzial_went.get()
+        id8 = self.mon_czujn.get()
+
+        messagebox.showinfo("Check window", contens1+";"+contens2+";"+ contens3+";"+id1+";"+id2+";"+id3+ ";" + id4+";"+id5+";"+id6+";"+id7+";"+id8)      #add
+        cur.execute('INSERT INTO tab VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?);',(contens1,contens2,contens3,id1,id2,id3,id4,id5,id6,id7,id8))                    #add
 
         con.commit()
 
@@ -401,12 +545,6 @@ class Application(Frame):
 
 
 
-
-
-
-
-
-
 ########################################################################################################################################################################################
 
     # funkcja przycisku archiwizacja - THE END
@@ -416,7 +554,7 @@ class Application(Frame):
 
         cur.execute(
             """
-            SELECT ID,nr_fabr,kod_prod, nr_zlec,identyfikacja,filtry_uszczelki,szczel_wymien,prowadz_przew_kon FROM tab
+            SELECT ID,nr_fabr,kod_prod, nr_zlec,identyfikacja,filtry_uszczelki,szczel_wymien,prowadz_przew_kon, mon_NW, mon_roz, dzial_went,mon_czujn FROM tab
 
             """)
         State_Train = cur.fetchall()
@@ -429,7 +567,6 @@ class Application(Frame):
         return State,app1,n
 
 
-#nr_fabr,nr_zlec,identyfikacja,filtry_uszczelki
 
 
 
@@ -440,7 +577,7 @@ class Application(Frame):
 
 root = Tk()
 root.title("KJ Ambery")
-root.geometry("500x500")
+root.geometry("520x500")
 
 
 
