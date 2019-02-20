@@ -55,7 +55,7 @@ class Application(Frame):
         self.montaz_rozdz(State)
         self.dzial_wentyl(State)
         self.montaz_czujnikow(State)
-
+        self.dzialanie_alarm_NW(State)
 
 
         self.btn_akcept()
@@ -350,7 +350,7 @@ class Application(Frame):
     def montaz_nag_wt(self,State):                                                              #change
 
 
-        self.lbl_czynnosc = Label(self, text ="Mont. nagrzewnicy wtórnej " )                       #change
+        self.lbl_czynnosc = Label(self, text ="Montaż NW " )                       #change
         self.lbl_czynnosc.grid(row = 7, column = 1,sticky = W )                                    #change
 
         self.mon_NW = StringVar()                                                             #change
@@ -494,12 +494,47 @@ class Application(Frame):
             self.lbl_czynnosc_info.grid(row = 10, column = 7)                                       #change
 
 
-        self.lbl_dist_9=Label(self)
-        self.lbl_dist_9.grid(row = 100, column = 5 , pady=2)                                       #dystans col  9
+####################################################################################################################################################################################
 
 
+    #poziom Działanie nagrzewnicy i wywołanie alarmu
+    def dzialanie_alarm_NW (self,State):                                                              #change
 
+
+        self.lbl_czynnosc = Label(self, text ="Działanie NW, wyzwolenie alarmu" )             #change
+        self.lbl_czynnosc.grid(row = 11, column = 1,sticky = W )                                   #change
+
+        self.dzial_NW = StringVar()                                                          #change
+
+        self.dzial_NW.set(State[0][12])                                                       #change
+
+
+        Radiobutton(self,
+                    text =  "Tak",
+                    variable = self.dzial_NW,                                                #change
+                    value = "Pozytyw",
+                    ).grid(row = 11, column = 4,sticky=W)                                          #change
+
+        Radiobutton(self,
+                    text =  "Nie",
+                    variable = self.dzial_NW,                                                #change
+                    value = "Negatyw",
+                    ).grid(row = 11, column = 4,sticky=E)                                          #change
+
+
+# Wyswietlanie stanu  z bazy
+
+        if  State[0][1]!=0 :
+            self.lbl_czynnosc_info = Label(self,text=State[0][12])                                  #change
+            self.lbl_czynnosc_info.grid(row = 11, column = 7)                                       #change
+            self.lbl_dist_9=Label(self)
+            self.lbl_dist_9.grid(row = 100, column = 5 , pady=2)                                       #dystans col  9
 #######################################################################################################################################################################################
+
+
+
+
+
 
 
     #poziom lini przycisk akceptuj
@@ -526,9 +561,9 @@ class Application(Frame):
         id6 = self.mon_roz.get()
         id7 = self.dzial_went.get()
         id8 = self.mon_czujn.get()
-
-        messagebox.showinfo("Check window", contens1+";"+contens2+";"+ contens3+";"+id1+";"+id2+";"+id3+ ";" + id4+";"+id5+";"+id6+";"+id7+";"+id8)      #add
-        cur.execute('INSERT INTO tab VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?);',(contens1,contens2,contens3,id1,id2,id3,id4,id5,id6,id7,id8))                    #add
+        id9 = self.dzial_NW.get()
+        messagebox.showinfo("Check window", contens1+";"+contens2+";"+ contens3+";"+id1+";"+id2+";"+id3+ ";" + id4+";"+id5+";"+id6+";"+id7+";"+id8+";"+id9)      #add
+        cur.execute('INSERT INTO tab VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?,?);',(contens1,contens2,contens3,id1,id2,id3,id4,id5,id6,id7,id8,id9))                    #add
 
         con.commit()
 
@@ -554,7 +589,7 @@ class Application(Frame):
 
         cur.execute(
             """
-            SELECT ID,nr_fabr,kod_prod, nr_zlec,identyfikacja,filtry_uszczelki,szczel_wymien,prowadz_przew_kon, mon_NW, mon_roz, dzial_went,mon_czujn FROM tab
+            SELECT ID,nr_fabr,kod_prod, nr_zlec,identyfikacja,filtry_uszczelki,szczel_wymien,prowadz_przew_kon, mon_NW, mon_roz, dzial_went,mon_czujn,dzial_NW FROM tab
 
             """)
         State_Train = cur.fetchall()
