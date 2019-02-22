@@ -3,6 +3,7 @@
 
 import sqlite3
 from tkinter import *
+#from tkinter.ttk import *
 from tkinter import messagebox
 
 # git
@@ -123,7 +124,7 @@ class Application(Frame):
 
 
         self.lbl_dist_8=Label(self)
-        self.lbl_dist_8.grid(row = 0, column = 5 , padx=4)                               #dystans col  8
+        self.lbl_dist_8.grid(row = 0, column = 5 , padx=4, pady=3)                               #dystans col  8
 
 
 ########################################################################################################################################################################################
@@ -146,6 +147,8 @@ class Application(Frame):
             var1.set(State[0][2])
         self.ent_kod_prod= Entry(self,textvariable=var1)
         self.ent_kod_prod.grid(row=1, column = 4)
+        self.lbl_dist_9=Label(self)
+        self.lbl_dist_9.grid(row = 1, column = 5,pady=3 )
 
 
 
@@ -182,6 +185,9 @@ class Application(Frame):
 
         self.ent_nr_zlec= Entry(self,textvariable=var2)
         self.ent_nr_zlec.grid(row=2, column = 4)
+
+        self.lbl_dist_10=Label(self)
+        self.lbl_dist_10.grid(row = 2, column = 5 , pady=3)
 
 
 
