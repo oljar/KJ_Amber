@@ -62,6 +62,7 @@ class Application(Frame):
         self.estetyka_wykonania(State)
         self.dokrecenie_paskow_oslon(State)
         self.kompletnosc_dostawy(State)
+        self.okno_uwagi(State)
         self.btn_akcept()
 
 
@@ -753,8 +754,7 @@ class Application(Frame):
         if  State[0][1]!=0 :
             self.lbl_czynnosc_info = Label(self,text=State[0][17])
             self.lbl_czynnosc_info.grid(row = 16, column = 7)
-            self.lbl_dist_9=Label(self)
-            self.lbl_dist_9.grid(row = 100, column = 5 , pady=2)                                       #dystans col  9
+                                             #dystans col  9
 
 
 #######################################################################################################################################################################################
@@ -792,13 +792,32 @@ class Application(Frame):
         if  State[0][1]!=0 :
             self.lbl_czynnosc_info = Label(self,text=State[0][18])
             self.lbl_czynnosc_info.grid(row = 17, column = 7)
-            self.lbl_dist_9=Label(self)
-            self.lbl_dist_9.grid(row = 100, column = 5 , pady=2)                                       #dystans col  9
+                                     #dystans col  9
 
 
 #######################################################################################################################################################################################
 
+    def okno_uwagi(self,State):
 
+        self.lbl_dist_9=Label(self,text ="Uwagi")
+        self.lbl_dist_9.grid(row = 18, column = 1 , sticky =W)  # dystans
+
+     #utworz widzet Entry do przyjecia textu z okna uwag
+
+        var3=StringVar() # zmienna pomocnicza - ukrywanie wywswl - zera
+        var3=State [0][19]
+        self.uwagi_txt = Text(self, width = 45, height = 5, wrap=WORD )
+        self.uwagi_txt.grid(row = 19, column = 1, columnspan = 6 , sticky =W)
+
+        if State[0][1]==0 :
+            self.uwagi_txt.insert(END," ")
+        else:
+            self.uwagi_txt.insert(END,var3)
+
+        self.lbl_dist_10=Label(self)
+        self.lbl_dist_10.grid(row = 100, column = 1)
+
+######################################################################################################################################################################################
 
 
 
@@ -833,10 +852,11 @@ class Application(Frame):
         id13 = self.estetyka.get()
         id14 = self.dokr_pas.get()
         id15 = self.kmpl_dost.get()
+        id16 = self.uwagi_txt.get(1.0, END)
         messagebox.showinfo("Check window", contens1+";"+contens2+";"+ contens3+";"+id1+";"+id2+";"+id3\
-        +";" + id4+";"+id5+";"+id6+";"+id7+";"+id8+";"+id9+";"+id10+";"+id11+";"+id12+";"+id13+";"+id14+";"+id15)
-        cur.execute('INSERT INTO tab VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);',(contens1,contens2,contens3,\
-        id1,id2,id3,id4,id5,id6,id7,id8,id9,id10,id11,id12,id13,id14,id15))
+        +";" + id4+";"+id5+";"+id6+";"+id7+";"+id8+";"+id9+";"+id10+";"+id11+";"+id12+";"+id13+";"+id14+";"+id15+"")
+        cur.execute('INSERT INTO tab VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);',(contens1,contens2,contens3,\
+        id1,id2,id3,id4,id5,id6,id7,id8,id9,id10,id11,id12,id13,id14,id15,id16))
 
         con.commit()
 
@@ -863,7 +883,7 @@ class Application(Frame):
         cur.execute(
             """
             SELECT ID,nr_fabr,kod_prod, nr_zlec,identyfikacja,filtry_uszczelki,szczel_wymien,prowadz_przew_kon, mon_NW, mon_roz,\
-            dzial_went,mon_czujn,dzial_NW,ustaw_ster, kontr_metrel,kontr_ozn, estetyka, kontr_pas, kmpl_dost FROM tab
+            dzial_went,mon_czujn,dzial_NW,ustaw_ster, kontr_metrel,kontr_ozn, estetyka, kontr_pas, kmpl_dost, uwagi FROM tab
 
             """)
         State_Train = cur.fetchall()
@@ -886,7 +906,7 @@ class Application(Frame):
 
 root = Tk()
 root.title("KJ Ambery")
-root.geometry("520x500")
+root.geometry("560x800")
 
 
 
