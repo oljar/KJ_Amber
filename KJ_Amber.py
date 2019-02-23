@@ -4,6 +4,7 @@
 import sqlite3
 from tkinter import *
 import tkinter.ttk as ttk
+import datetime
 from tkinter import messagebox
 
 # git
@@ -16,6 +17,10 @@ con.row_factory = sqlite3.Row
 
 # utworzenie obiektu kursora
 cur = con.cursor()
+
+
+
+
 
 
 
@@ -65,6 +70,7 @@ class Application(Frame):
         self.kompletnosc_dostawy(State)
         self.okno_uwagi(State)
         self.podpis_kontrolera(State)
+
         self.btn_akcept()
 
 
@@ -145,16 +151,19 @@ class Application(Frame):
 
         if State[0][1]==0 :
             var1.set("")
+            bad1_txt=""
         else:
             var1.set(State[0][2])
+            bad1_txt ="Ostatnie badanie:"
+
         self.ent_kod_prod= Entry(self,textvariable=var1)
         self.ent_kod_prod.grid(row=1, column = 4)
         self.lbl_dist_9=Label(self)
         self.lbl_dist_9.grid(row = 1, column = 5,pady=3 )
 
-
-
-
+        # Wyswietlanie komunikatu
+        self.lbl_t1 = Label(self, text=bad1_txt)
+        self.lbl_t1.grid(row = 1, column =6, columnspan=2)
 
 
 
@@ -181,8 +190,11 @@ class Application(Frame):
 
         if State[0][1]==0 :
             var2.set("")
+            bad2_txt=""
         else:
             var2.set(State[0][3])
+            bad2_txt=str(State[0][22])+' '+str(State[0][23])
+
 
 
         self.ent_nr_zlec= Entry(self,textvariable=var2)
@@ -193,6 +205,9 @@ class Application(Frame):
 
 
 
+
+        self.lbl_t2 = Label(self, text = bad2_txt)
+        self.lbl_t2.grid(row = 2, column =6, columnspan=2)
 
 
 ########################################################################################################################################################################################
@@ -811,8 +826,6 @@ class Application(Frame):
         self.lbl_dist_9.grid(row = 18, column = 1 , sticky =W)  # dystans
 
 
-
-
      #utworz widzet Entry do przyjecia textu z okna uwag
 
         var3=StringVar() # zmienna pomocnicza - ukrywanie wywswl - zera
@@ -876,6 +889,9 @@ class Application(Frame):
 
 
 
+
+
+
     #poziom lini przycisk akceptuj
 
     def btn_akcept(self):
@@ -888,7 +904,11 @@ class Application(Frame):
 
     # funkcja przycisku akeptuj
     def akcept (self):
-        """Wyswietl komunikat zależny od poprawnosci hasla"""
+
+        dt = datetime.datetime.now()
+        now_d = dt.strftime("%d-%m-%Y")
+        now_h = dt.strftime("%H:%M")
+
         contens1 = str(self.ent_nr_fab.get())
         contens2 = str(self.ent_kod_prod.get())
         contens3 = str(self.ent_nr_zlec.get())
@@ -910,10 +930,12 @@ class Application(Frame):
         id16 = self.uwagi_txt.get(1.0, END)
         id17 = self.uwagi_bool.get()
         id18 = self.podpis.get()
+        id19 = now_d
+        id20 = now_h
        # messagebox.showinfo("Check window", contens1+";"+contens2+";"+ contens3+";"+id1+";"+id2+";"+id3\
        # +";" + id4+";"+id5+";"+id6+";"+id7+";"+id8+";"+id9+";"+id10+";"+id11+";"+id12+";"+id13+";"+id14+";"+id15+"")
-        cur.execute('INSERT INTO tab VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);',(contens1,contens2,contens3,\
-        id1,id2,id3,id4,id5,id6,id7,id8,id9,id10,id11,id12,id13,id14,id15,id16,id17,id18))
+        cur.execute('INSERT INTO tab VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);',(contens1,contens2,contens3,\
+        id1,id2,id3,id4,id5,id6,id7,id8,id9,id10,id11,id12,id13,id14,id15,id16,id17,id18,id19,id20))
 
 
         con.commit()
@@ -946,7 +968,7 @@ class Application(Frame):
         cur.execute(
             """
             SELECT ID,nr_fabr,kod_prod, nr_zlec,identyfikacja,filtry_uszczelki,szczel_wymien,prowadz_przew_kon, mon_NW, mon_roz,\
-            dzial_went,mon_czujn,dzial_NW,ustaw_ster, kontr_metrel,kontr_ozn, estetyka, kontr_pas, kmpl_dost, uwagi, uwagi_bool, podpis FROM tab
+            dzial_went,mon_czujn,dzial_NW,ustaw_ster, kontr_metrel,kontr_ozn, estetyka, kontr_pas, kmpl_dost, uwagi, uwagi_bool, podpis, now_d, now_h FROM tab
 
             """)
         State_Train = cur.fetchall()
