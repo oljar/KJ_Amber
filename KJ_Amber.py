@@ -914,8 +914,8 @@ class Application(Frame):
 
 
     def ostrzezenie_zapis(self):
-        messagebox.showinfo("Zapis danych", "Czy zapisać dane ?")
-        self.akcept()
+        if messagebox.askyesno("Zapis danych", "Czy zapisać dane ?"):
+            self.akcept()
 
 
 
