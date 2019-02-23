@@ -3,7 +3,7 @@
 
 import sqlite3
 from tkinter import *
-#from tkinter.ttk import *
+import tkinter.ttk as ttk
 from tkinter import messagebox
 
 # git
@@ -812,7 +812,7 @@ class Application(Frame):
 
         var3=StringVar() # zmienna pomocnicza - ukrywanie wywswl - zera
         var3=State [0][19]
-        self.uwagi_txt = Text(self, width = 45, height = 5, wrap=WORD )
+        self.uwagi_txt = Text(self, width = 48, height = 5, wrap=WORD )
         self.uwagi_txt.grid(row = 19, column = 1, columnspan = 6 , sticky =W)
 
         if State[0][1]==0 :
@@ -821,7 +821,21 @@ class Application(Frame):
             self.uwagi_txt.insert(END,var3)
 
         self.lbl_dist_10=Label(self)
+        self.lbl_dist_10.grid(row = 20, column = 1)
+
+
+
+
+        self.comboExample = ttk.Combobox(self, 
+                                    values=[
+                                    "January", 
+                                    "February",
+                                    "March",
+                                    "April"],
+                                     ).grid(row = 21,column = 4 , sticky= E)
+        self.lbl_dist_10=Label(self)
         self.lbl_dist_10.grid(row = 100, column = 1)
+
 
 ######################################################################################################################################################################################
 
