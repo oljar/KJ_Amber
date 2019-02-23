@@ -64,7 +64,9 @@ class Application(Frame):
         self.dokrecenie_paskow_oslon(State)
         self.kompletnosc_dostawy(State)
         self.okno_uwagi(State)
+        self.podpis_kontrolera(State)
         self.btn_akcept()
+
 
 
         self.n=n
@@ -808,6 +810,9 @@ class Application(Frame):
         self.lbl_dist_9=Label(self,text ="Uwagi")
         self.lbl_dist_9.grid(row = 18, column = 1 , sticky =W)  # dystans
 
+
+
+
      #utworz widzet Entry do przyjecia textu z okna uwag
 
         var3=StringVar() # zmienna pomocnicza - ukrywanie wywswl - zera
@@ -825,16 +830,46 @@ class Application(Frame):
 
 
 
+        self.uwagi_bool = StringVar()
+        self.uwagi_bool.set(State[0][20])
 
-        self.comboExample = ttk.Combobox(self, 
-                                    values=[
-                                    "January", 
-                                    "February",
-                                    "March",
-                                    "April"],
-                                     ).grid(row = 21,column = 4 , sticky= E)
-        self.lbl_dist_10=Label(self)
-        self.lbl_dist_10.grid(row = 100, column = 1)
+
+        Radiobutton(self,
+                    text =  "Tak",
+                    variable = self.uwagi_bool,
+                    value = "Pozytyw",
+                    ).grid(row = 18, column = 4,sticky=W)
+
+        Radiobutton(self,
+                    text =  "Nie",
+                    variable = self.uwagi_bool,
+                    value = "Negatyw",
+                    ).grid(row = 18, column = 4,sticky=E)
+
+
+
+        if  State[0][1]!=0 :
+            self.lbl_czynnosc_info = Label(self,text=State[0][20])
+            self.lbl_czynnosc_info.grid(row = 18, column = 7)
+
+
+
+####################################################################################################################################################################################
+
+    def podpis_kontrolera(self,State):
+        self.podpis = StringVar()
+        self.combobox = ttk.Combobox(self, textvariable = self.podpis)
+        self.combobox.grid(row = 21, column = 4, columnspan = 6 , sticky =W)
+        self.combobox['values'] = ('','Jarosław Olszewski', 'Piotr Tylak')
+        self.combobox.current(0)
+        a=State[0][21]
+        if a=='Jarosław Olszewski':
+            self.combobox.current(1)
+        if a=='Piotr Tylak':
+            self.combobox.current(2)
+
+
+
 
 
 ######################################################################################################################################################################################
@@ -873,12 +908,20 @@ class Application(Frame):
         id14 = self.dokr_pas.get()
         id15 = self.kmpl_dost.get()
         id16 = self.uwagi_txt.get(1.0, END)
-        messagebox.showinfo("Check window", contens1+";"+contens2+";"+ contens3+";"+id1+";"+id2+";"+id3\
-        +";" + id4+";"+id5+";"+id6+";"+id7+";"+id8+";"+id9+";"+id10+";"+id11+";"+id12+";"+id13+";"+id14+";"+id15+"")
-        cur.execute('INSERT INTO tab VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);',(contens1,contens2,contens3,\
-        id1,id2,id3,id4,id5,id6,id7,id8,id9,id10,id11,id12,id13,id14,id15,id16))
+        id17 = self.uwagi_bool.get()
+        id18 = self.podpis.get()
+       # messagebox.showinfo("Check window", contens1+";"+contens2+";"+ contens3+";"+id1+";"+id2+";"+id3\
+       # +";" + id4+";"+id5+";"+id6+";"+id7+";"+id8+";"+id9+";"+id10+";"+id11+";"+id12+";"+id13+";"+id14+";"+id15+"")
+        cur.execute('INSERT INTO tab VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);',(contens1,contens2,contens3,\
+        id1,id2,id3,id4,id5,id6,id7,id8,id9,id10,id11,id12,id13,id14,id15,id16,id17,id18))
+
 
         con.commit()
+
+
+
+
+
 
     #  funkcja zwiększająca zmeinną sterującą bazą
     def arch_UP(self):
@@ -903,7 +946,7 @@ class Application(Frame):
         cur.execute(
             """
             SELECT ID,nr_fabr,kod_prod, nr_zlec,identyfikacja,filtry_uszczelki,szczel_wymien,prowadz_przew_kon, mon_NW, mon_roz,\
-            dzial_went,mon_czujn,dzial_NW,ustaw_ster, kontr_metrel,kontr_ozn, estetyka, kontr_pas, kmpl_dost, uwagi FROM tab
+            dzial_went,mon_czujn,dzial_NW,ustaw_ster, kontr_metrel,kontr_ozn, estetyka, kontr_pas, kmpl_dost, uwagi, uwagi_bool, podpis FROM tab
 
             """)
         State_Train = cur.fetchall()
