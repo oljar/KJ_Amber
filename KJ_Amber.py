@@ -123,10 +123,10 @@ class Application(Frame):
         #utworz przyciski 'archiwum'0
 
         self.btn_up = Button(self,text= "UP", command=self.arch_UP )
-        self.btn_up.grid(row = 0, column=6 , sticky=E)
+        self.btn_up.grid(row = 0, column=6 , ipadx=20 , sticky=E)
 
-        self.btn_up = Button(self,text= "DN", command=self.arch_DOWN )
-        self.btn_up.grid(row = 0, column=7 , sticky=W)
+        self.btn_dn = Button(self,text= "DN", command=self.arch_DOWN )
+        self.btn_dn.grid(row = 0, column=7 ,ipadx=20, sticky=W)
 
 
 
@@ -164,6 +164,8 @@ class Application(Frame):
         # Wyswietlanie komunikatu
         self.lbl_t1 = Label(self, text=bad1_txt)
         self.lbl_t1.grid(row = 1, column =6, columnspan=2)
+
+
 
 
 
@@ -441,6 +443,12 @@ class Application(Frame):
                     value = "Negatyw",
                     ).grid(row = 7, column = 4,sticky=E)
 
+        Radiobutton(self,
+                    text =  "Brak",
+                    variable = self.mon_NW,
+                    value = "Brak",
+                    ).grid(row = 7, column = 6,sticky=E, padx=15)
+
 
 # Wyswietlanie stanu  z bazy
 
@@ -591,6 +599,11 @@ class Application(Frame):
                     variable = self.dzial_NW,
                     value = "Negatyw",
                     ).grid(row = 11, column = 4,sticky=E)
+        Radiobutton(self,
+                    text =  "Brak",
+                    variable = self.dzial_NW,
+                    value = "Brak",
+                    ).grid(row = 11 , column = 6,sticky=E, padx=15)
 
 
 # Wyswietlanie stanu  z bazy
@@ -896,8 +909,15 @@ class Application(Frame):
 
     def btn_akcept(self):
         #utworz przycisk - akceptuj- poziom
-        self.submit_bttn = Button(self, text ="Akceptuj", command = self.akcept)
-        self.submit_bttn.grid(row = 101, column = 1)
+        self.submit_bttn = Button(self, text ="Akceptuj", command = self.ostrzezenie_zapis)
+        self.submit_bttn.grid(row = 21, column = 1)
+
+
+    def ostrzezenie_zapis(self):
+        messagebox.showinfo("Zapis danych", "Czy zapisać dane ?")
+        self.akcept()
+
+
 
 
 
@@ -937,7 +957,7 @@ class Application(Frame):
         cur.execute('INSERT INTO tab VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);',(contens1,contens2,contens3,\
         id1,id2,id3,id4,id5,id6,id7,id8,id9,id10,id11,id12,id13,id14,id15,id16,id17,id18,id19,id20))
 
-
+        messagebox.showinfo("Zapis danych", "Zapisano")
         con.commit()
 
 
@@ -991,7 +1011,7 @@ class Application(Frame):
 
 root = Tk()
 root.title("KJ Ambery")
-root.geometry("560x800")
+root.geometry("580x670")
 
 
 
