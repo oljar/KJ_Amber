@@ -286,10 +286,6 @@ class Application(Frame):
             self.lbl_filter_gasket_info.grid(row = 4, column = 7)
 
 
-        self.lbl_dist_9=Label(self)
-        self.lbl_dist_9.grid(row = 100, column = 5 , pady=2)
-
-
 
 
 
