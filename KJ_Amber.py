@@ -252,52 +252,6 @@ class Application(Frame):
 
 
 
-
-    #poziom lini filtry uszczelka
-    def filtry_uszczelki(self,State):
-
-
-        self.lbl_filter_gasket = Label(self, text ="Filtry-Uszczelki-Silikon-Dławice ")
-        self.lbl_filter_gasket.grid(row = 4, column = 1,sticky = W )
-
-        self.filter_gasket = StringVar()
-
-        self.filter_gasket.set(State[0][5])
-
-
-        Radiobutton(self,
-                    text =  "Tak",
-                    variable = self.filter_gasket,
-                    value = "Pozytyw",
-                   # command = self.update_text
-                    ).grid(row = 4, column = 4,sticky=W)
-
-        Radiobutton(self,
-                    text =  "Nie",
-                    variable = self.filter_gasket,
-                    value = "Negatyw",
-                   #command = self.update_text
-                    ).grid(row = 4, column = 4,sticky=E)
-
-
-# Wyswietlanie stanu  z bazy
-
-        if  State[0][1]!=0 :
-            self.lbl_filter_gasket_info = Label(self,text=State[0][5])
-            self.lbl_filter_gasket_info.grid(row = 4, column = 7)
-
-
-        self.lbl_dist_9=Label(self)
-        self.lbl_dist_9.grid(row = 100, column = 5 , pady=2)
-
-
-
-
-
-#######################################################################################################################################################################################
-
-
-
     #poziom lini filtry uszczelka
     def filtry_uszczelki(self,State):
 
