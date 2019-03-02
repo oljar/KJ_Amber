@@ -6,6 +6,8 @@ from tkinter import *
 import tkinter.ttk as ttk
 import datetime
 from tkinter import messagebox
+import os
+import sys
 
 # git
 # utworzenie połączenia z bazą przechowywaną na dysku
@@ -17,9 +19,6 @@ con.row_factory = sqlite3.Row
 
 # utworzenie obiektu kursora
 cur = con.cursor()
-
-
-
 
 
 
@@ -947,10 +946,15 @@ class Application(Frame):
 
         self.grid_remove()
 
-        app1 = Application(root,State,self.n)
-        return State,app1,n
+        try:
+             app1 = Application(root,State,self.n)
+             return State,app1,n
+        except:
 
+               messagebox.showinfo("Zapis danych", "Poza zakresem")
 
+               python = sys.executable
+               os.execl(python, python, * sys.argv)
 
 
 
